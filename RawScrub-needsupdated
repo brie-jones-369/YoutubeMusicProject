@@ -1,0 +1,76 @@
+import pandas as pd
+from bs4 import BeautifulSoup
+
+# Load the HTML file
+with open(r'C:/Users/bjones/OneDrive - CoverMyMeds/YouTube and YouTube Music/history/watch-history.html', encoding="utf8") as file:
+    soup = BeautifulSoup(file, "html.parser")
+
+# Find all elements with the class "song"
+songs = soup.find_all(class_="mdl-grid")
+
+#create a list to put the song stuff into 
+song_data = []
+
+# Use function to find where to split
+def find_in_list(string):
+    split_index = 0
+    for month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:
+         index = string.rfind(month)
+         if index > split_index:
+             split_index = index
+    return split_index
+
+# Loop through each song
+for song in songs[:100]:
+    # Extract the stuff
+    app = song.find(class_="mdl-typography--title").text
+    details = song.find(class_="content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1").text
+    product = song.find(class_="content-cell mdl-cell mdl-cell--12-col mdl-typography--caption").text#.split('\n')[1].strip()
+    
+    # Clean details step 1, artist - separate then clean
+    atdt_split_char = "-"
+    atdt_count_char = details.count(adtd_split_char)
+    atdt_temp = details.split(dt_split_char)
+    atdt_splitat = atdt_count_char - 1   #should I do -1 or should this just be the count?  
+    artist1, title_date_time = atdt_split_char.join(atdt_temp[:atdt_splitat]).strip(), atdt_split_char.join(atdt_temp[atdt_splitat:]).strip()
+    artist = artist1.removeprefix('Watched ')
+    
+    # Clean details step 2, title   
+    splitat = find_in_list(title_date_time)
+    title, date_time = title_date_time[:splitat], title_date_time[splitat:]
+    
+    # Clean details step 3, separate date and time
+    dt_split_char = ","
+    dt_splitat = 2
+    dt_temp = date_time.split(dt_split_char)
+    date, time = dt_split_char.join(dt_temp[:dt_splitat]).strip(), dt_split_char.join(dt_temp[dt_splitat:]).strip()
+
+    #put the stuff into the list
+    song_data.append([app, details, product, artist, date, time])
+
+#put list into a data frame for manipulation    
+df=pd.DataFrame(song_data, columns=["Artist", "Title", "Date", "Time", "Product"])
+
+print(df)
+
+#df.to_csv('R:\bjones\zz_Non-Board Items\Personal Projects\Music Data Conversion/yt_watch_history.csv')
+
+"""
+df[["Artist","title_date"]]=df.Details.Series.str.split("-") #.removeprefix('Watched ')
+
+#df[["title"]]=df.title_date[:-27]
+#df[["date_time"]]=df.title_date[-27:]
+
+ # Use regex to separate artist from date/time string
+    #match = re.search(r'(.+)\s+(Jan|Feb|Mar|Apr|May|June|Jul|Aug|Sep|Oct|Nov|Dec)', artist_and_date)
+    #artist = match.group(1).strip()
+    #date_time = match.group(2).strip()
+
+# Use function to find where to split
+def find_in_list(string):
+     for month in ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:
+          return string.rfind(month)
+      
+df[[datetime_splitat]]=df.title_date.find_in_list()
+
+"""
