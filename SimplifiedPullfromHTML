@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Mar 24 16:09:52 2023
+
+@author: brie-jones-369
+"""
+
+import pandas as pd
+from bs4 import BeautifulSoup
+
+# Load the HTML file
+with open(r'C:/Users/bjones/OneDrive - CoverMyMeds/YouTube and YouTube Music/history/watch-history.html', encoding="utf8") as file:
+    soup = BeautifulSoup(file, "html.parser")
+
+# Find all elements with the class "song"
+songs = soup.find_all(class_="mdl-grid")
+
+#create a list to put the song stuff into 
+song_data = []
+
+
+# Loop through each song
+for song in songs:
+    # Extract the stuff
+    app = song.find(class_="mdl-typography--title").text
+    details = song.find(class_="content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1").text
+    product = song.find(class_="content-cell mdl-cell mdl-cell--12-col mdl-typography--caption").text#.split('\n')[1].strip()
+    
+
+    #put the stuff into the list
+    song_data.append([app, details, product])
+
+#put list into a data frame for manipulation    
+df=pd.DataFrame(song_data, columns=["app", "details", "product"])
+
+#print(df)
+
+df.to_csv('yt_watch_history.csv')
