@@ -1,0 +1,37 @@
+</style>
+</head>
+<body>
+    <div class="mdl-grid">
+        <div class="outer-cell mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+            <div class="mdl-grid">
+                <div class="header-cell mdl-cell mdl-cell--12-col">
+                <p class="mdl-typography--title">YouTube TV
+                    <br>
+                </p>
+            </div>
+            <div class="content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1">
+                Watched <a href="https://tv.youtube.com/watch/m7bYEzJEVNw">ABC 6
+                </a>
+                <br>
+                Good Morning America<br>Dec 19, 2022, 7:28:38 AM EST
+            </div>
+            <div class="content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1 mdl-typography--text-right">
+
+            </div>
+            <div class="content-cell mdl-cell mdl-cell--12-col mdl-typography--caption">
+                <b>Products:
+
+                </b>
+                <br>
+                &emsp;YouTube
+                <br>
+                <b>Why is this here?
+
+                </b>
+                <br>
+                &emsp;This activity was saved to your Google Account because the following settings were on:&nbsp;YouTube watch history.&nbsp;You can control these settings &nbsp;
+                <a href="https://myaccount.google.com/activitycontrols">
+                    here
+                </a>.</div>
+            </div>
+        </div>
