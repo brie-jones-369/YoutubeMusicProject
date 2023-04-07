@@ -1,0 +1,21 @@
+import pandas as pd
+
+# Pull in CSV
+df = pd.read_csv(r'R:\bjones\zz_Non-Board Items\Personal Projects\Music Data Conversion\yt_watch_history_coderemoved.csv', encoding='ANSI')
+
+# Filter to only include rows where the app column has the value of "YouTube Music"
+df = df[df['app'] == 'YouTube Music']
+
+
+#separate artist and title
+df['artist_title'] = df['details'].str.extract(r'^Watched (.*) - Topic')
+df[['artist', 'title']] = df.artist_title.str.extract(r'^(.*?[a-z])([A-Z].*)$')
+
+
+#separate date and time
+df['date_time'] = df['details'].str.extract(r' - Topic(.*)')
+df['date'] = df.date_time.str.extract(r'(.*), ')
+df['time'] = df.date_time.str.extract(r',\s*([^,]+)$')
+
+#export all data to csv
+df.to_csv('cleaned_data.csv')
